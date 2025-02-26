@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .checkout-summary {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 16px;
+        }
+
+        .checkout-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .checkout-item img {
+            max-width: 80px;
+            max-height: 80px;
+            object-fit: contain;
+            margin-right: 15px;
+        }
+
+        .checkout-total {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+
+        /* Style for the form */
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+     
+        .place-order-button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .place-order-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="checkout-summary">
+        <h2>Checkout Summary</h2>
+ <div id="checkout-content"></div>
+
+<form id="checkout-form">
+ <label for="billing-name">Billing Name:</label>
+<input type="text" id="billing-name" name="billingName" required>
+
+<label for="billing-address">Billing Address:</label>
+<input type="text" id="billing-address" name="billingAddress" required>
+
+ <label for="shipping-address">Shipping Address:</label>
+ <input type="text" id="shipping-address" name="shippingAddress" required>
+
+ <button type="button" class="place-order-button" onclick="placeOrder()">Place Order</button>
+        </form>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var params = new URLSearchParams(window.location.search);
+                var medicinesParam = params.get('medicines');
+                var medicines = medicinesParam ? JSON.parse(medicinesParam) : [];
+
+console.log('Medicines:', medicines);
+
+ var checkoutContent = document.getElementById('checkout-content');
+
+ if (medicines.length > 0) {
+                    checkoutContent.innerHTML += '<p><strong>Selected Medicines:</strong></p>';
+                    medicines.forEach(function (medicine) {
+                        var checkoutItemDiv = createCheckoutItemDiv(medicine);
+                        checkoutContent.appendChild(checkoutItemDiv);
+                    });
+
+                  
+        
+                } 
+            });    
+ function createCheckoutItemDiv(medicine) {
+ var checkoutItemDiv = document.createElement('div');
+checkoutItemDiv.className = 'checkout-item';
+
+var image = document.createElement('img');
+ image.src = medicine.image;
+ image.alt = medicine.name;
+
+ var medicineInfo = document.createElement('div');
+ medicineInfo.innerHTML = '<p><strong>' + medicine.name + '</strong></p>';
+
+ checkoutItemDiv.appendChild(image);
+checkoutItemDiv.appendChild(medicineInfo);
+
+ return checkoutItemDiv;
+ }
+
+
+function placeOrder() {
+var billingName = document.getElementById('billing-name').value;var billingAddress = document.getElementById('billing-address').value;
+ var shippingAddress = document.getElementById('shipping-address').value;       
+ alert('Order placed successfully!\nBilling Name: ' + billingName +
+'\nBilling Address: ' + billingAddress +
+'\nShipping Address: ' + shippingAddress);
+ }
+        </script>
+    </div>
+</body>
+
+</html>

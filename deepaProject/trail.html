@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Symptoms</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .symptoms-form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="symptoms-form">
+        <h2>Health Symptoms</h2>
+        <form>
+            <label for="symptoms">Select your symptoms:</label>
+            <select id="symptoms" name="symptoms" multiple>
+                <option value="cough">Cough</option>
+                <option value="fever">Fever</option>
+                <option value="headache">Headache</option>
+                <option value="fatigue">Fatigue</option>
+                <option value="shortness-of-breath">Shortness of Breath</option>
+                <!-- Add more symptoms as needed -->
+            </select>
+
+            <button type="button" onclick="submitForm()">Submit</button>
+        </form>
+
+        <script>
+            function submitForm() {
+                var selectedSymptoms = [];
+                var selectBox = document.getElementById('symptoms');
+                for (var i = 0; i < selectBox.options.length; i++) {
+                    if (selectBox.options[i].selected) {
+                        selectedSymptoms.push(selectBox.options[i].value);
+                    }
+                }
+
+                if (selectedSymptoms.length > 0) {
+                    // Redirect to the medicine recommendations page with selected symptoms as query parameters
+                    window.location.href = 'medicineselection.html?symptoms=' + encodeURIComponent(selectedSymptoms.join(','));
+                } else {
+                    alert("Please select at least one symptom.");
+                }
+            }
+        </script>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Store</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .page {
+            display: none;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        #loginPage {
+            display: block;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        select, input {
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="loginPage" class="page">
+            <h1>Login</h1>
+            <form id="loginForm">
+                <label for="username">Username:</label>
+                <input type="text" id="username" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" required>
+                <button type="button" onclick="login()">Login</button>
+            </form>
+        </div>
+
+        <div id="symptomsPage" class="page">
+            <h1>Symptoms</h1>
+            <select id="symptomSelect">
+                <!-- Options will be populated dynamically using JavaScript -->
+            </select>
+            <button onclick="selectSymptom()">Next</button>
+        </div>
+
+        <div id="medicinePage" class="page">
+            <h1>Medicine Selection</h1>
+            <div id="medicineList">
+                <!-- Medicine options will be populated dynamically using JavaScript -->
+            </div>
+            <button onclick="addToCart()">Add to Cart</button>
+        </div>
+
+        <div id="cartPage" class="page">
+            <h1>Medicine Details</h1>
+            <div id="cartDetails">
+                <!-- Cart details will be populated dynamically using JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser;
+        let selectedSymptom;
+        let cart = [];
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Implement real authentication logic here
+            // For simplicity, just set a dummy user for now
+            currentUser = {
+                username: 'user123',
+                role: 'user'
+            };
+
+            showPage('symptomsPage');
+            populateSymptoms();
+        }
+
+        function populateSymptoms() {
+            const symptomSelect = document.getElementById('symptomSelect');
+            symptomSelect.innerHTML = '';
+
+            for (const symptom of symptoms) {
+                const option = document.createElement('option');
+                option.value = symptom;
+                option.textContent = symptom;
+                symptomSelect.appendChild(option);
+            }
+        }
+
+        function selectSymptom() {
+            selectedSymptom = document.getElementById('symptomSelect').value;
+            showPage('medicinePage');
+            populateMedicineList();
+        }
+
+        function populateMedicineList() {
+            const medicineList = document.getElementById('medicineList');
+            medicineList.innerHTML = '';
+
+            const medicinesForSymptom = medicines[selectedSymptom];
+
+            for (const medicine of medicinesForSymptom) {
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.value = medicine;
+                checkbox.id = medicine;
+
+                const label = document.createElement('label');
+                label.htmlFor = medicine;
+                label.textContent = medicine;
+
+                medicineList.appendChild(checkbox);
+                medicineList.appendChild(label);
+                medicineList.appendChild(document.createElement('br'));
+            }
+        }
+
+        function addToCart() {
+            const selectedMedicines = Array.from(document.querySelectorAll('#medicineList input:checked'))
+                .map(checkbox => checkbox.value);
+
+            cart = selectedMedicines;
+            showCart();
+        }
+
+        function showCart() {
+            const cartDetails = document.getElementById('cartDetails');
+            cartDetails.innerHTML = '';
+
+            const heading = document.createElement('h2');
+            heading.textContent = 'Medicine Details';
+            cartDetails.appendChild(heading);
+
+            for (const medicine of cart) {
+                const paragraph = document.createElement('p');
+                paragraph.textContent = medicine;
+                cartDetails.appendChild(paragraph);
+            }
+
+            showPage('cartPage');
+        }
+
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.style.display = 'none');
+            document.getElementById(pageId).style.display = 'block';
+        }
+    </script>
+    <script src="data.json"></script>
+</body>
+</html>

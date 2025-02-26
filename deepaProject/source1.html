@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Symptoms</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .symptoms-form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input[type="checkbox"] {
+            margin-bottom: 16px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="symptoms-form">
+        <h2>Health Symptoms</h2>
+        <form id="symptomsForm" onsubmit="submitForm()">
+            <label for="cough">Cough</label>
+            <input type="checkbox" id="cough" name="symptoms" value="cough">
+
+            <label for="fever">Fever</label>
+            <input type="checkbox" id="fever" name="symptoms" value="fever">
+
+            <label for="headache">Headache</label>
+            <input type="checkbox" id="headache" name="symptoms" value="headache">
+
+            <label for="fatigue">Fatigue</label>
+            <input type="checkbox" id="fatigue" name="symptoms" value="fatigue">
+
+            <label for="shortness-of-breath">Shortness of Breath</label>
+            <input type="checkbox" id="shortness-of-breath" name="symptoms" value="shortness-of-breath"><br>
+
+            <!-- Add more symptoms as needed -->
+
+            <button type="submit">Submit</button>
+        </form>
+
+        <script>
+            function submitForm() {
+                var selectedSymptoms = [];
+                var checkboxes = document.querySelectorAll('input[name="symptoms"]:checked');
+                checkboxes.forEach(function (checkbox) {
+                    selectedSymptoms.push(checkbox.value);
+                });
+
+                if (selectedSymptoms.length > 0) {
+                    // Redirect to the medicine recommendations page with selected symptoms as query parameters
+                    window.location.href = 'medicineselection.html?symptoms=' + encodeURIComponent(selectedSymptoms.join(','));
+                } else {
+                    alert("Please select at least one symptom.");
+                }
+            }
+        </script>
+    </div>
+</body>
+
+</html>

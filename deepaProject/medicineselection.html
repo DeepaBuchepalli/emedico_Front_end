@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medicine Recommendations</title>
+<style>
+body {
+font-family: 'Arial', sans-serif;
+background: url('medical_background3.jpg.jpg') no-repeat center center fixed;
+background-color: #f4f4f4;
+text-align: center;
+padding: 20px;
+}
+
+.medicine-results {
+max-width: 800px;
+margin: 0 auto;
+background-color: #fff;
+padding: 20px;
+border-radius: 8px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+margin-bottom: 16px;
+}
+
+.medicine {
+display: flex;
+justify-content: space-between;
+margin-bottom: 20px;
+}
+
+.medicine img {
+max-width: 100px;
+max-height: 100px;
+object-fit: contain;
+margin-right: 20px;
+}
+
+.medicine button {
+background-color: #4CAF50;
+color: #fff;
+padding: 10px;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+}
+
+.medicine button:hover {
+background-color: #45a049;
+}
+
+.view-cart-button {
+background-color: #4CAF50;
+color: #fff;
+padding: 10px;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+}
+
+.view-cart-button:hover {
+background-color: #45a049;
+}
+</style>
+</head>
+
+<body>
+<div class="medicine-results">
+<h2>Medicine Recommendations</h2>
+<div id="output"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+var params = new URLSearchParams(window.location.search);
+var symptoms = params.getAll('symptoms');
+
+var medicineData = {
+cough: [
+{ name: 'Herbal Mucus', image: 'cough.jpg', price: 10 },
+{ name: 'Vicks cough syrup', image: 'cough2.jpg', price: 12 },
+{ name: 'FrezyDerm cough syrup', image: 'cough3.jpg', price: 15 },
+{ name: ' Hylandis Cough Syrup ', image: 'COUGH4.jpg', price: 8 }
+],
+fever: [
+{ name: 'Guardian 100', image: 'fever1.jpg', price: 10 },
+{ name: 'Paracetmol 1000', image: 'fever2.jpg', price: 13 },
+{ name: 'Allevia', image: 'fever3.jpg', price: 11 },
+{ name: 'telfast', image: 'fever4.jpg', price: 9 }
+],
+headache: [
+{ name: 'Syndol 100', image: 'headache1.jpg', price: 14 },
+{ name: 'MHR-1000', image: 'headache2.jpg', price: 11 },
+{ name: 'EXCEDRIN', image: 'headache3.jpg', price: 10 },
+{ name: 'Hylands migrane', image: 'headache4.jpg', price: 13 }
+],
+fatigue: [
+{ name: 'kroger herb', image: 'fatigue1.jpg', price: 12 },
+{ name: 'Prime fifty', image: 'fatigue2.jpg', price: 14 },
+{ name: 'Activive-1000', image: 'fatigue3.jpg', price: 15 },
+{ name: 'Enzmatic', image: 'fatigue4.jpg', price: 11 }
+],
+'shortness-of-breath': [
+{ name: 'Respritol', image: 'breath1.jpg', price: 16 },
+{ name: 'AsmaSolon ', image: 'breath2.jpg', price: 18 },
+{ name: 'Sulfur pentakran', image: 'breath3.jpg', price: 20 },
+{ name: 'Herceptin 4', image: 'breath4.jpg', price: 22 }
+],
+};
+
+var outputDiv = document.getElementById('output');
+var cartMedicines = [];
+
+if (symptoms.length > 0) {
+outputDiv.innerHTML = '<p><strong>Selected Symptoms:</strong> ' + symptoms.join(', ') + '</p>';
+outputDiv.innerHTML += '<p><strong>Recommended Medicines:</strong></p>';
+symptoms.forEach(function (symptom) {
+if (symptom in medicineData) {
+medicineData[symptom].forEach(function (medicine) {
+var medicineDiv = createMedicineDiv(medicine);
+outputDiv.appendChild(medicineDiv);
+});
+} else {
+outputDiv.innerHTML += '<p>No specific recommendation for ' + symptom + '.</p>';
+}
+});
+} else {
+outputDiv.innerHTML = '<p>No symptoms selected.</p>';
+}
+
+function createMedicineDiv(medicine) {
+var medicineDiv = document.createElement('div');
+medicineDiv.className = 'medicine';
+
+var image = document.createElement('img');
+image.src = medicine.image;
+image.alt = medicine.name;
+
+var medicineInfo = document.createElement('div');
+medicineInfo.innerHTML = '<p><strong>' + medicine.name + '</strong></p>' +
+'<p><strong>Price:</strong> ₹' + medicine.price + '</p>';
+
+var addToCartButton = document.createElement('button');
+addToCartButton.textContent = 'Add to Cart';
+addToCartButton.addEventListener('click', function () {
+cartMedicines.push(medicine);
+alert('Added ' + medicine.name + ' to cart!');
+});
+
+medicineDiv.appendChild(image);
+medicineDiv.appendChild(medicineInfo);
+medicineDiv.appendChild(addToCartButton);
+
+return medicineDiv;
+}
+
+function redirectToCart() {
+var cartUrl = 'cart.html?medicines=' + encodeURIComponent(JSON.stringify(cartMedicines));
+window.location.href = cartUrl;
+}
+
+var viewCartButton = document.createElement('button');
+viewCartButton.textContent = 'View Cart';
+viewCartButton.className = 'view-cart-button'; 
+viewCartButton.addEventListener('click', redirectToCart);
+outputDiv.appendChild(viewCartButton);
+});
+</script>
+</div>
+</body>
+
+</html>

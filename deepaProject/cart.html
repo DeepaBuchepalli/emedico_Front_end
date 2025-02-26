@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopping Cart</title>
+<style>
+ body {
+font-family: 'Arial', sans-serif;
+text-align: center;
+padding: 20px;
+}
+
+.cart-items {
+ max-width: 800px;
+ margin: 0 auto;
+ background-color: #fff;
+   padding: 20px;
+border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+ h2 {
+margin-bottom: 16px;
+ }
+
+.cart-item {
+ display: flex;
+ justify-content: space-between;
+margin-bottom: 20px;
+}
+
+.cart-item img {
+max-width: 100px;
+ max-height: 100px;
+ object-fit: contain;
+margin-right: 20px;
+ }
+
+ .buy-now-button {
+ background-color: #4CAF50;
+color: #fff;
+ padding: 10px;
+  border: none;
+ border-radius: 5px;
+            cursor: pointer;
+}
+
+ .buy-now-button:hover {
+            background-color: #45a049;
+        }
+
+        .total-bill {
+            margin-top: 20px;
+            font-size: 18px;
+ }
+</style>
+</head>
+<body>
+<div class="cart-items">
+<h2>Shopping Cart</h2>
+<div id="cart-content"></div>
+ <div id="total-bill" class="total-bill"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+var params = new URLSearchParams(window.location.search);
+ var medicinesParam = params.get('medicines');
+ var medicines = medicinesParam ? JSON.parse(decodeURIComponent(medicinesParam)) : [];
+var cartContent = document.getElementById('cart-content');
+ var totalBillElement = document.getElementById('total-bill');
+var totalBill = 0;
+  if (medicines.length > 0) {
+  cartContent.innerHTML += '<p><strong>Added Medicines:</strong></p>';
+  medicines.forEach(function (medicine) {
+var cartItemDiv = createCartItemDiv(medicine);
+cartContent.appendChild(cartItemDiv);
+totalBill += medicine.price;
+ });
+totalBillElement.innerHTML = '<p><strong>Total Bill:</strong> ₹' + totalBill + '</p>';
+} else {
+cartContent.innerHTML = '<p>No medicines added to the cart.</p>';
+ totalBillElement.innerHTML = '';
+ }
+function createCartItemDiv(medicine) {
+var cartItemDiv = document.createElement('div');
+ cartItemDiv.className = 'cart-item';
+var image = document.createElement('img');
+ image.src = medicine.image;
+var medicineInfo = document.createElement('div');
+medicineInfo.innerHTML = '<p><strong>' + medicine.name + '</strong></p>' +
+ '<p><strong>Price:</strong> ₹' + medicine.price + '</p>';
+   cartItemDiv.appendChild(image);
+cartItemDiv.appendChild(medicineInfo);
+ return cartItemDiv;
+ }
+ function redirectToCheckout() {
+  var checkoutUrl = 'checkout.html';
+   window.location.href = checkoutUrl;
+}
+
+ var buyNowButton = document.createElement('button');
+ buyNowButton.textContent = 'Buy Now';
+ buyNowButton.className = 'buy-now-button'; 
+buyNowButton.addEventListener('click', redirectToCheckout);
+cartContent.appendChild(buyNowButton);
+            });
+        </script>
+    </div>
+</body>
+
+</html>

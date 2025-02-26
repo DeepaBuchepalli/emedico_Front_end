@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<body>
+    <form>
+        select the category:
+        <select id="ch">
+            <option value=""></option>
+            <option value="mobiles">mobiles</option>
+            <option value="laptops">laptops</option>
+            <option value="clothes">clothes</option>
+        </select>
+        <input type="submit" onclick="return list1()">
+        <p is="ch"></p>
+     
+
+    </form>
+</body>
+<script>
+        function listl()
+        {
+            let c=document.getElementById("ch").value;
+            let para=document.getElementById("p");
+            if(c=="Mobile")
+            {
+                para.innerHTML="<ol><li>Mi 12 pro</li><li>IQOO Z6 pro</li><li>Jio phone</li></ol>";
+            }
+            else if(c=="Laptop")
+            {
+                para.innerHTML="<ol><li>Asus Vivobook s15 OLED</li><li>HP pavilion 16</li><li>Dell Vostro</li></ol>";
+            }
+            else if(c=="TV's")
+            {
+                para.innerHTML="<ol><li>LG OLED</li><li>Samsung QLED</li><li>Motorolo ENvisionX</li></ol>";
+            }
+            else{
+                para.innerHTML="Please select any option";
+            }
+            return false;
+        }
+    </script>
+</body>
